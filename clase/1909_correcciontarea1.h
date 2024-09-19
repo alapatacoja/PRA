@@ -10,9 +10,6 @@ class SortNet {
         SortNet(int *v);
         ~SortNet();
         void input(int *v);
-        int print();
+        void print();
         void sort();
-        
-        
-        
 };
