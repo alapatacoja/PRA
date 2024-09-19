@@ -63,12 +63,12 @@ int main() {
 
     ordenacion.input();
 
-    std::cout << "Antes de ordenar: ";
+    std::cout << "antes: ";
     ordenacion.print();
 
     ordenacion.sort();
 
-    std::cout << "Después de ordenar: ";
+    std::cout << "despues: ";
     ordenacion.print();
 
     return 0;
