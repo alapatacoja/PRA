@@ -16,7 +16,11 @@ class HashTable: public Dict<V> {
         ListLinked<TableEntry<V>> *table;
 
         int h(std::string key){
-
+            int sum = 0;
+            for(int i = 0; i<key.size(); i++){
+                sum += int(key.at(i));
+            }
+            return sum%max;
         }
 
     public:
@@ -45,7 +49,12 @@ class HashTable: public Dict<V> {
 
 	
         V operator[](std::string key){
-            
+            if(table.find(key) != table.end()){
+                return table[key];
+            } else {
+                throw std::runtime_error("no existe la llave");
+
+            }
         }
 
        void insert(const std::string key, const V val){
