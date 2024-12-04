@@ -25,10 +25,10 @@ class HashTable: public Dict<V> {
 
     public:
 
-        Hash(int size){
+        HashTable(int size){
             table = new ListLinked<TableEntry<V>>[size];
-            this.max = size;
-            this.n = 0;
+            max = size;
+            n = 0;
         }
 
 
@@ -37,11 +37,11 @@ class HashTable: public Dict<V> {
         }
 
         int capacity(){
-            return this.max;
+            return max;
         }   
 
         friend std::ostream& operator<<(std::ostream &out, const HashTable<V> &th){
-            for (int i = 0; i < this.max; i++){
+            for (int i = 0; i < th.max; i++){
                 out << i << ": " << th.table[i] << std::endl;
             }
             return out;
@@ -49,12 +49,13 @@ class HashTable: public Dict<V> {
 
 	
         V operator[](std::string key){
-            if(table.find(key) != table.end()){
-                return table[key];
-            } else {
-                throw std::runtime_error("no existe la llave");
-
+            int temp = h(key);
+            for(int i = 0; i < table[temp].size(); i++){
+                if(table[temp][i].key == key){
+                    return table[temp][i].value;
+                }
             }
+            throw std::runtime_error("no existe la llave");
         }
 
        void insert(const std::string key, const V val){
@@ -64,7 +65,7 @@ class HashTable: public Dict<V> {
             } catch (const std::runtime_error&) {
                 TableEntry<V> entry(key, val);
                 table[temp].insert(0, entry);
-                this.n++;
+                n++;
             }
        }
 
@@ -84,7 +85,7 @@ class HashTable: public Dict<V> {
                 if(table[temp][i].key == key){
                     V temp = table[temp][i].value;
                     table[temp].remove(i);
-                    this.n--;
+                    n--;
                     return temp;
                 }
             }
@@ -92,7 +93,7 @@ class HashTable: public Dict<V> {
         }
 
         int entries(){
-            return this.n;
+            return n;
         }
         
 };
