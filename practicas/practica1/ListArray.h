@@ -12,6 +12,31 @@ class ListArray : public List<T> {
 
     public:
 
+		ListArray(){
+		arr = new T[MINSIZE];
+		max = MINSIZE;
+		n = 0;
+	}
+
+	~ListArray(){
+		delete[] arr;
+	}
+	
+	T operator[](int pos){
+		if (pos < 0 || pos >= n) {
+			throw std::out_of_range("fuera de rango");
+		}
+		return arr[pos];
+	}
+
+	friend std::ostream& operator<<(std::ostream &out, const ListArray<T> &list){
+		for (int i = 0; i < list.n; i++) {
+			out << list.arr[i] << " ";
+		}
+		return out;
+	}
+
+
 	void insert(int pos, T e){
 		if (pos < 0 || pos > n) {
 			throw std::out_of_range("fuera de rango");
@@ -28,11 +53,7 @@ class ListArray : public List<T> {
 	}
 
 	void append(T e){
-		if (n == max) {
-			resize(max + 1);
-		}
-		arr[n] = e;
-		++n;
+		insert(n, e);
 	}
 
 	void prepend(T e){
@@ -50,9 +71,8 @@ class ListArray : public List<T> {
 		}
 
 		--n;
-		if (n < max / 4) {
-			resize(max - 1);
-		}
+
+		resize(max - 1);
 
 		return e;
 	}
@@ -79,31 +99,6 @@ class ListArray : public List<T> {
 
 	int size(){
 		return sizeof(arr);
-	}
-
-
-	ListArray(){
-		arr = new T[MINSIZE];
-		max = MINSIZE;
-		n = 0;
-	}
-
-	~ListArray(){
-		delete[] arr;
-	}
-	
-	T operator[](int pos){
-		if (pos < 0 || pos >= n) {
-			throw std::out_of_range("fuera de rango");
-		}
-		return arr[pos];
-	}
-
-	friend std::ostream& operator<<(std::ostream &out, const ListArray<T> &list){
-		for (int i = 0; i < list.n; i++) {
-			out << list.arr[i] << " ";
-		}
-		return out;
 	}
 
 	void resize(int new_size){
