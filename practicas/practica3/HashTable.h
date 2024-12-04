@@ -27,8 +27,8 @@ class HashTable: public Dict<V> {
 
         Hash(int size){
             table = new ListLinked<TableEntry<V>>[size];
-            max = size;
-            n = 0;
+            this.max = size;
+            this.n = 0;
         }
 
 
@@ -37,11 +37,11 @@ class HashTable: public Dict<V> {
         }
 
         int capacity(){
-            return max;
+            return this.max;
         }   
 
         friend std::ostream& operator<<(std::ostream &out, const HashTable<V> &th){
-            for (int i = 0; i < th.max; i++){
+            for (int i = 0; i < this.max; i++){
                 out << i << ": " << th.table[i] << std::endl;
             }
             return out;
@@ -64,7 +64,7 @@ class HashTable: public Dict<V> {
             } catch (const std::runtime_error&) {
                 TableEntry<V> entry(key, val);
                 table[temp].insert(0, entry);
-                n++;
+                this.n++;
             }
        }
 
@@ -84,7 +84,7 @@ class HashTable: public Dict<V> {
                 if(table[temp][i].key == key){
                     V temp = table[temp][i].value;
                     table[temp].remove(i);
-                    n--;
+                    this.n--;
                     return temp;
                 }
             }
@@ -92,7 +92,7 @@ class HashTable: public Dict<V> {
         }
 
         int entries(){
-            return n;
+            return this.n;
         }
         
 };
