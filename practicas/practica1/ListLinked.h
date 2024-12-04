@@ -53,7 +53,7 @@ class ListLinked : public List<T> {
 			throw std::out_of_range("fuera de rango");
 		}
 
-		resize(max + 1);
+		resize(n + 1);
 		
 		for (int i = n; i > pos; --i) {
 			arr[i] = arr[i - 1];
@@ -83,7 +83,7 @@ class ListLinked : public List<T> {
 
 		--n;
 
-		resize(max - 1);
+		resize(n - 1);
 
 		return e;
 	}
@@ -121,6 +121,6 @@ class ListLinked : public List<T> {
 
 		delete[] arr;
 		arr = new_arr;
-		max = new_size;
+		n = new_size;
 	}
 };
