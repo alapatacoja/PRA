@@ -14,9 +14,12 @@ private:
     int max;
     ListLinked<TableEntry<V>>* table;
 
-    int h(const std::string& key) {
+    using namespace std;
+
+    int h(const string& key) {
         int sum = 0;
-        for (char c : key) {
+        for (int i = 0; i < key.length(); i++) {
+            char c = key[i];
             sum += static_cast<int>(c);
         }
         return (sum % max + max) % max;
@@ -24,7 +27,7 @@ private:
 
 public:
     HashTable(int size) {
-        if (size <= 0) throw std::invalid_argument("Tamaño inválido");
+        if (size <= 0) throw invalid_argument("Tamaño inválido");
         table = new ListLinked<TableEntry<V>>[size];
         max = size;
         n = 0;
@@ -38,30 +41,30 @@ public:
         return max;
     }
 
-    friend std::ostream& operator<<(std::ostream& out, const HashTable<V>& th) {
+    friend ostream& operator<<(ostream& out, const HashTable<V>& th) {
         for (int i = 0; i < th.max; i++) {
-            out << i << ": " << th.table[i] << std::endl;
+            out << i << ": " << th.table[i] << endl;
         }
         return out;
     }
 
-    V operator[](std::string key) {
+    V operator[](string key) {
     int temp = h(key);
     for (int i = 0; i < table[temp].size(); i++) {
         if (table[temp][i].key == key) {
             return table[temp][i].value;
         }
     }
-    throw std::runtime_error("Key does not exist");
+    throw runtime_error("Key does not exist");
 }
 
 
-    void insert(const std::string key, const V val) {
+    void insert(const string key, const V val) {
     int temp = h(key);
     // Busca si ya existe una entrada con la misma clave
     for (int i = 0; i < table[temp].size(); i++) {
         if (table[temp][i].key == key) {
-            throw std::runtime_error("Key already exists");
+            throw runtime_error("Key already exists");
         }
     }
     // Inserta la nueva clave-valor
@@ -71,10 +74,10 @@ public:
 }
 
 
-    V search(const std::string& key) {
+    V search(const string& key) {
         int temp = h(key);
         if (table[temp].empty()) {
-            throw std::runtime_error("No se encontró la clave");
+            throw runtime_error("No se encontró la clave");
         }
 
         for (int i = 0; i < table[temp].size(); i++) {
@@ -82,13 +85,13 @@ public:
                 return table[temp][i].value;
             }
         }
-        throw std::runtime_error("No se encontró la clave");
+        throw runtime_error("No se encontró la clave");
     }
 
-    V remove(const std::string& key) {
+    V remove(const string& key) {
         int temp = h(key);
         if (table[temp].empty()) {
-            throw std::runtime_error("No se encontró la clave");
+            throw runtime_error("No se encontró la clave");
         }
 
         for (int i = 0; i < table[temp].size(); i++) {
@@ -99,7 +102,7 @@ public:
                 return val;
             }
         }
-        throw std::runtime_error("No se encontró la clave");
+        throw runtime_error("No se encontró la clave");
     }
 
     int entries() {
