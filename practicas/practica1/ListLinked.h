@@ -49,19 +49,26 @@ class ListLinked : public List<T> {
         }
 
         void insert(int pos, T e){
-		if (pos < 0 || pos > n) {
-			throw std::out_of_range("fuera de rango");
-		}
+			if (pos < 0 || pos > n) {
+				throw std::out_of_range("Position out of range");
+			}
 
-		resize(n + 1);
-		
-		for (int i = n; i > pos; --i) {
-			arr[i] = arr[i - 1];
-		}
+			Node<T>* newNode = new Node<T>(e);
 
-		arr[pos] = e;
-		++n;
-	}
+			if (pos == 0) {
+				newNode->next = first;
+				first = newNode;
+			} else {
+				Node<T>* aux = first;
+				for (int i = 0; i < pos - 1; ++i) {
+					aux = aux->next;
+				}
+				newNode->next = aux->next;
+				aux->next = newNode;
+			}
+
+			++n;
+		}
 
 	void append(T e){
 		insert(n, e);
@@ -76,51 +83,57 @@ class ListLinked : public List<T> {
 			throw std::out_of_range("Position out of range");
 		}
 
-		T e = arr[pos];
-		for (int i = pos; i < n - 1; ++i) {
-			arr[i] = arr[i + 1];
+		Node<T>* aux = first;
+		if (pos == 0) {
+			first = first->next;
+			T data = aux->data;
+			delete aux;
+			--n;
+			return data;
 		}
 
+		for (int i = 0; i < pos - 1; ++i) {
+			aux = aux->next;
+		}
+
+		Node<T>* toDelete = aux->next;
+		aux->next = toDelete->next;
+		T data = toDelete->data;
+		delete toDelete;
 		--n;
-
-		resize(n - 1);
-
-		return e;
+		return data;
 	}
 
 	T get(int pos){
-		return T[pos];
+		if (pos < 0 || pos >= n) {
+			throw std::out_of_range("Position out of range");
+		}
+
+		Node<T>* aux = first;
+		for (int i = 0; i < pos; ++i) {
+			aux = aux->next;
+		}
+
+		return aux->data;
 	}
 
 	int search(T e){
+		Node<T>* aux = first;
 		for (int i = 0; i < n; ++i) {
-			if (arr[i] == e) {
+			if (aux->data == e) {
 				return i;
 			}
+			aux = aux->next;
 		}
 		return -1;
 	}
 
 	bool empty(){
-		if(sizeof(arr)==0)
-			return true;
-		else 
-			return false;
+		return n == 0;
 	}
 
 	int size(){
-		return sizeof(arr);
+		return n;
 	}
 
-	void resize(int new_size){
-		T* new_arr = new T[new_size];
-
-		for (int i = 0; i < n; i++) {
-			new_arr[i] = arr[i];
-		}
-
-		delete[] arr;
-		arr = new_arr;
-		n = new_size;
-	}
 };

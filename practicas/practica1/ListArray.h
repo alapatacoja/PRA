@@ -1,6 +1,8 @@
 #include <ostream>
 #include "List.h"
 
+
+
 template <typename T> 
 class ListArray : public List<T> {
 
@@ -78,7 +80,7 @@ class ListArray : public List<T> {
 	}
 
 	T get(int pos){
-		return T[pos];
+		return arr[pos];
 	}
 
 	int search(T e){
@@ -114,3 +116,6 @@ class ListArray : public List<T> {
 	}
 	// miembros públicos, incluidos los heredados de List<T>
 };
+
+template <typename T>
+const int ListArray<T>::MINSIZE = 0;
