@@ -7,6 +7,8 @@
 #include "BSTree.h"
 #include "TableEntry.h"
 
+using namespace std;
+
 template <typename V>
 class BSTreeDict: public Dict<V> {
 
@@ -23,7 +25,8 @@ class BSTreeDict: public Dict<V> {
 	}
 
 	friend std::ostream& operator<<(std::ostream &out, const BSTreeDict<V> &bs){
-		tree->print_inorder(out, dict.tree->root);
+		
+		out << *bs.tree << endl;		
 		return out;
 	}
 
@@ -33,23 +36,20 @@ class BSTreeDict: public Dict<V> {
 
 	void insert(std::string key, V value){
 		TableEntry<V> entry(key, value);
-		if(tree->search(key))
-			throw std::runtime_error("la clave ya existe");
 		tree->insert(entry);
 	}
 
 	V search(std::string key){
-		BSNode<TableEntry<V>> *node = tree->search(root, TableEntry<V>(key,V()));
-		if(node == nullptr)
-			throw std::runtime_error("clave no encontrada");
-		return node->elem.value;
+		TableEntry<V> node(key);
+		TableEntry<V> aux = tree->search(node);
+		return aux.value;
 	}
 
 	V remove(std::string key){
-			TableEntry<V> entry = tree->remove(key);
-			if(entry.key.empty())
-				throw std::runtime_error("clave no encontrada");
-			return entry.value;
+		TableEntry<V> node(key);
+		TableEntry<V> aux = tree->search(node);
+		tree->remove(node);
+		return aux.value;
 	}
 
 	int entries(){

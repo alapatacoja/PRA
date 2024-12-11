@@ -5,13 +5,13 @@
 template <typename V> 
 class Dict {
     public:
-        void insert(const std::string key, const V val);
+        virtual void insert(const std::string key, const V val) = 0;
 
-        V search(std::string key);
+        virtual V search(std::string key) = 0;
 
-        V remove(std::string key);
+        virtual V remove(std::string key) = 0;
 
-        int entries();
+        virtual int entries() = 0;
 };
 
 #endif

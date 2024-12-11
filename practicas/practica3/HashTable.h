@@ -7,6 +7,9 @@
 #include "TableEntry.h"
 
 #include "../practica1/ListLinked.h"  
+
+using namespace std;
+
 template <typename V>
 class HashTable: public Dict<V> {
 private:
@@ -14,7 +17,7 @@ private:
     int max;
     ListLinked<TableEntry<V>>* table;
 
-    using namespace std;
+    //using namespace std;
 
     int h(const string& key) {
         int sum = 0;
@@ -59,7 +62,7 @@ public:
 }
 
 
-    void insert(const string key, const V val) {
+    void insert(const string key, const V val) override {
     int temp = h(key);
     // Busca si ya existe una entrada con la misma clave
     for (int i = 0; i < table[temp].size(); i++) {
@@ -74,7 +77,7 @@ public:
 }
 
 
-    V search(const string& key) {
+    V search(const string key) override{
         int temp = h(key);
         if (table[temp].empty()) {
             throw runtime_error("No se encontró la clave");
@@ -88,7 +91,7 @@ public:
         throw runtime_error("No se encontró la clave");
     }
 
-    V remove(const string& key) {
+    V remove(const string key) override{
         int temp = h(key);
         if (table[temp].empty()) {
             throw runtime_error("No se encontró la clave");
@@ -105,7 +108,7 @@ public:
         throw runtime_error("No se encontró la clave");
     }
 
-    int entries() {
+    int entries() override{
         return n;
     }
 };
